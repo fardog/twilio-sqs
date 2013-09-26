@@ -57,9 +57,9 @@ app.post '/twiml', (res, req) ->
       if err?
         console.log err
 
-    res.status(200).send
+    res.send(200)
   else
-    res.status(403).send 'Not accepted.'
+    res.send(403)
 
 
 (http.createServer(app)).listen app.get('port'), ->

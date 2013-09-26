@@ -71,9 +71,9 @@
           return console.log(err);
         }
       });
-      return res.status(200).send;
+      return res.send(200);
     } else {
-      return res.status(403).send('Not accepted.');
+      return res.send(403);
     }
   });
 
