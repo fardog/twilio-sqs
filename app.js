@@ -18,19 +18,9 @@
 
   app.set('port', process.env.PORT || 3000);
 
-  app.use(express.favicon());
-
   app.use(express.logger('dev'));
 
   app.use(express.bodyParser());
-
-  app.use(express.methodOverride());
-
-  app.use(express.cookieParser('its a secret to everyone'));
-
-  app.use(express.session());
-
-  app.use(app.router);
 
   nconf.argv().env().file('config.json');
 
