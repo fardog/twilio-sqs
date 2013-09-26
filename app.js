@@ -22,6 +22,14 @@
 
   app.use(express.bodyParser());
 
+  app.use(express.methodOverride());
+
+  app.use(express.cookieParser('its a secret to everyone'));
+
+  app.use(express.session());
+
+  app.use(app.router);
+
   nconf.argv().env().file('config.json');
 
   config = {};
@@ -46,7 +54,7 @@
 
   sqs = new aws.SQS(config.sqs);
 
-  app.post('/twiml', function(res, req) {
+  app.post('/twiml', function(req, res) {
     var message;
     if (req.headers == null) {
       req.headers = {};

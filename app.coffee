@@ -12,10 +12,10 @@ app.set 'port', process.env.PORT || 3000
 # app.use express.favicon()
 app.use express.logger('dev')
 app.use express.bodyParser()
-# app.use express.methodOverride()
-# app.use express.cookieParser('its a secret to everyone')
-# app.use express.session()
-# app.use app.router
+app.use express.methodOverride()
+app.use express.cookieParser('its a secret to everyone')
+app.use express.session()
+app.use app.router
 
 nconf.argv().env().file('config.json')
 
@@ -37,19 +37,12 @@ config.sqs.region = nconf.get 'AWS_REGION'
 
 sqs = new aws.SQS(config.sqs)
 
-app.post '/twiml', (res, req) ->
+app.post '/twiml', (req, res) ->
   if !req.headers?
     req.headers = {}
   req.headers.host = req.host
 
   if twilio.validateExpressRequest req, config.twilio.authToken
-    # resp = new twilio.TwimlResponse()
-    # resp.say 'Hello, Twilio.'
-
-    # res.type 'text/xml'
-    # res.send resp.toString()
-
-    # send message to SQS
     message = {}
     message.QueueUrl = config.sqs.endpoint
     message.MessageBody = req.body.body + '[' + req.body.from + ']'
