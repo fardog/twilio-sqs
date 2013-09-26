@@ -38,10 +38,6 @@ config.sqs.region = nconf.get 'AWS_REGION'
 sqs = new aws.SQS(config.sqs)
 
 app.post '/twiml', (req, res) ->
-  if !req.headers?
-    req.headers = {}
-  req.headers.host = req.host
-
   if twilio.validateExpressRequest req, config.twilio.authToken
     message = {}
     message.QueueUrl = config.sqs.endpoint

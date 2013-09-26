@@ -56,10 +56,6 @@
 
   app.post('/twiml', function(req, res) {
     var message;
-    if (req.headers == null) {
-      req.headers = {};
-    }
-    req.headers.host = req.host;
     if (twilio.validateExpressRequest(req, config.twilio.authToken)) {
       message = {};
       message.QueueUrl = config.sqs.endpoint;
