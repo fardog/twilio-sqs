@@ -1,7 +1,7 @@
 express = require 'express'
 http = require 'http'
 path = require 'path'
-twilio_client = require 'twilio'
+twilio = require 'twilio'
 nconf = require 'nconf'
 aws = require 'aws-sdk'
 
@@ -27,8 +27,6 @@ config.twilio = {}
 config.twilio.accountSid = nconf.get 'TWILIO_ACCOUNT_SID'
 config.twilio.authToken = nconf.get 'TWILIO_AUTH_TOKEN'
 
-twilio = new twilio_client(config.twilio.accountSid, config.twilio.authToken)
-
 # Set up AWS
 config.sqs = {}
 config.sqs.apiVersion = nconf.get 'AWS_API_VERSION'
@@ -40,7 +38,7 @@ config.sqs.region = nconf.get 'AWS_REGION'
 sqs = new aws.SQS(config.sqs)
 
 app.post '/twiml', (res, req) ->
-  if twilio_client.validateExpressRequest req, config.twilio.authToken
+  if twilio.validateExpressRequest req, config.twilio.authToken
     # resp = new twilio.TwimlResponse()
     # resp.say 'Hello, Twilio.'
 
