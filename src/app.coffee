@@ -34,7 +34,8 @@ app.set 'port', process.env.PORT || 3000
 app.use express.logger('dev')
 app.use express.bodyParser()
 app.use express.methodOverride()
-app.use express.cookieParser('its a secret to everyone')
+cookie_secret = (nconf.get 'COOKIE_SECRET') ? 'its a secret to everyone'
+app.use express.cookieParser(cookie_secret)
 app.use express.session()
 app.use app.router
 
