@@ -1,0 +1,9 @@
+{
+	"AWS_API_VERSION": "2013-09-25",
+	"AWS_ACCESS_KEY_ID": "your_access_key_id",
+	"AWS_ACCESS_KEY_SECRET": "your_secret_access_key",
+	"AWS_ENDPOINT_URL": "https://your_endpoint_url",
+	"AWS_REGION": "your_region",
+	"TWILIO_ACCOUNT_SID": "your_account_sid",
+	"TWILIO_AUTH_TOKEN": "your_auth_token"
+}

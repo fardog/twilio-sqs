@@ -1,0 +1,25 @@
+{
+  "name": "twilio-sqs",
+	"private": true,
+  "version": "0.0.1",
+	"author": "Nathan Wittstock <code@fardogllc.com>",
+  "description": "A small heroku app for shuttling twilio SMS messages into Amazon's SQS.",
+  "dependencies": {
+    "express": "3.4.x",
+		"twilio": "1.2.x",
+		"aws-sdk": "1.6.x",
+		"nconf": "0.6.x"
+  },
+	"devDependencies": {
+		"grunt": "0.4.x",
+		"grunt-contrib-coffee": "0.7.x",
+		"coffee-script": "1.6.x"
+	},
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.3.x"
+  },
+	"scripts": {
+		"start": "node app.js"
+	}
+}
