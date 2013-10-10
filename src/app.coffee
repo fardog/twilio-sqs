@@ -69,11 +69,9 @@ app.post '/twiml', (req, res) ->
     sqs.sendMessage message, (err, data) ->
       if err?
         console.error err
-        return res.send(500)
+        res.send(500)
       else
-        return res.send(200)
-
-    res.send(400)
+        res.send(200)
   else
     res.send(403)
 
