@@ -68,6 +68,7 @@ app.post '/twiml', (req, res) ->
   if twilio.validateExpressRequest req, config.twilio.authToken
     message = {}
     message.QueueUrl = config.sqs.endpoint
+    console.log req.body
     try
       message.MessageBody = req.body.Body + ' [' + req.body.From + ']'
     catch error
