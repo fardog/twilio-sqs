@@ -63,6 +63,7 @@ config.sqs.region = nconf.get 'AWS_REGION'
 
 sqs = new aws.SQS(config.sqs)
 
+
 app.post '/twiml', (req, res) ->
   if twilio.validateExpressRequest req, config.twilio.authToken
     message = {}
@@ -86,6 +87,12 @@ app.post '/twiml', (req, res) ->
 
 server = http.createServer app
 unlinking = false
+
+shutdown = ->
+  console.log 'shutting down'
+  server.close()
+
+process.on 'SIGINT', shutdown
 
 server.on 'error', (e) ->
   if parseInt port
