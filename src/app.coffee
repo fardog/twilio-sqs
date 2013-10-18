@@ -94,12 +94,14 @@ server.on 'error', (e) ->
   if e.code == 'EADDRINUSE'
     clientSocket = new net.Socket()
     clientSocket.on 'error', (e) ->
-      if e.code == 'ECONNREFUSED' and unlinking = false
+      if e.code == 'ECONNREFUSED' and unlinking == false
         unlinking = true
         fs.unlink port, (e) ->
           console.log 'error unlinking file'
         server.listen port, ->
           console.log 'server recovered'
+      else
+        console.log 'already unlinking'
 
     clientSocket.connect (data =
       path: port
