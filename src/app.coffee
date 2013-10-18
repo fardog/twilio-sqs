@@ -23,6 +23,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 express = require 'express'
 http = require 'http'
 net = require 'net'
+fs = require 'fs'
 path = require 'path'
 twilio = require 'twilio'
 nconf = require 'nconf'
