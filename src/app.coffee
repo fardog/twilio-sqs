@@ -33,8 +33,9 @@ nconf.argv().env().file('config.json')
 
 
 app = express()
+port = process.env.PORT || 3000
 
-app.set 'port', process.env.PORT || 3000
+app.set 'port', port
 app.use express.logger('dev')
 app.use express.bodyParser()
 app.use express.methodOverride()
@@ -84,23 +85,28 @@ app.post '/twiml', (req, res) ->
 
 
 server = http.createServer app
+unlinking = false
 
 server.on 'error', (e) ->
+  if parseInt port
+    console.error 'port is in use: ' + port
+    process.exit(1)
   if e.code == 'EADDRINUSE'
     clientSocket = new net.Socket()
     clientSocket.on 'error', (e) ->
-      if e.code == 'ECONNREFUSED'
-        fs.unlink process.env.PORT, (e) ->
+      if e.code == 'ECONNREFUSED' and unlinking = false
+        unlinking = true
+        fs.unlink port, (e) ->
           console.log 'error unlinking file'
-        server.listen process.env.PORT, ->
+        server.listen port, ->
           console.log 'server recovered'
 
     clientSocket.connect (data =
-      path: process.env.PORT
+      path: port
     ), ->
       console.log 'server running, giving up...'
-      process.exit()
+      process.exit(1)
 
-server.listen process.env.PORT, ->
-  console.log 'Express server is running. Listening at: ' + process.env.PORT
+server.listen port, ->
+  console.log 'Express server is running. Listening at: ' + port
 
