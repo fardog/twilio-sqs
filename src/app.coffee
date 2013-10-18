@@ -22,10 +22,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 express = require 'express'
 http = require 'http'
+net = require 'net'
 path = require 'path'
 twilio = require 'twilio'
 nconf = require 'nconf'
 aws = require 'aws-sdk'
+
+nconf.argv().env().file('config.json')
 
 
 app = express()
@@ -39,7 +42,6 @@ app.use express.cookieParser(cookie_secret)
 app.use express.session()
 app.use app.router
 
-nconf.argv().env().file('config.json')
 
 # Create a configuration object
 config = {}
@@ -80,6 +82,23 @@ app.post '/twiml', (req, res) ->
     res.send(403)
 
 
-(http.createServer(app)).listen app.get('port'), ->
-  console.log('Express server listening on port ' + app.get('port'))
+server = http.createServer app
+
+server.on 'error', (e) ->
+  if e.code == 'EADDRINUSE'
+    clientSocket = new net.Socket()
+    clientSocket.on 'error', (e) ->
+      if e.code == 'ECONNREFUSED'
+        fs.unlink process.env.PORT
+        server.listen process.env.PORT, ->
+          console.log 'server recovered'
+
+    clientSocket.connect (data =
+      path: process.env.PORT
+    ), ->
+      console.log 'server running, giving up...'
+      process.exit()
+
+server.listen process.env.PORT, ->
+  console.log 'Express server is running. Listening at: ' + process.env.PORT
 
