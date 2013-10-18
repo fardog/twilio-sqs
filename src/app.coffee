@@ -90,7 +90,8 @@ server.on 'error', (e) ->
     clientSocket = new net.Socket()
     clientSocket.on 'error', (e) ->
       if e.code == 'ECONNREFUSED'
-        fs.unlink process.env.PORT
+        fs.unlink process.env.PORT, (e) ->
+          console.log 'error unlinking file'
         server.listen process.env.PORT, ->
           console.log 'server recovered'
 
